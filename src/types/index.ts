@@ -16,7 +16,7 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-    payment: TPayment;
+    payment: TPayment | null;
     email: string;
     phone: string;
     address: string;
@@ -36,3 +36,5 @@ export interface IOrderResponse {
     id: string;
     total: number;
 }
+
+export type TBuyerErrors = Partial<Record<keyof IBuyer, string>>;

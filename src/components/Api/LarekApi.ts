@@ -13,7 +13,8 @@ export class LarekApi {
 
     getProducts(): Promise<IProductsResponse> {
 
-        return this.api.get('/product/');
+        return this.api.get<IProductsResponse>("/product/");
+    
 
     }
 

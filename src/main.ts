@@ -15,30 +15,30 @@ products.setItems(apiProducts.items);
 
 console.log('Каталог', products.getItems());
 
-console.log(products.getItem(apiProducts.items[0].id));
+console.log('Товар по id', products.getItem(apiProducts.items[0].id));
 
 products.setPreview(apiProducts.items[0]);
 
-console.log(products.getPreview());
+console.log('Выбранный товар', products.getPreview());
 
 basket.add(apiProducts.items[0]);
 basket.add(apiProducts.items[1]);
 
-console.log(basket.getItems());
+console.log('Товары в корзине', basket.getItems());
 
-console.log(basket.getCount());
+console.log('Количество товаров', basket.getCount());
 
-console.log(basket.getTotal());
+console.log('Общая стоимость товаров', basket.getTotal());
 
-console.log(basket.has(apiProducts.items[0].id));
+console.log('Наличие товара', basket.has(apiProducts.items[0].id));
 
 basket.remove(apiProducts.items[0].id);
 
-console.log(basket.getItems());
+console.log('Корзина после удаления товаров', basket.getItems());
 
 basket.clear();
 
-console.log(basket.getItems());
+console.log('Корзина после очистки', basket.getItems());
 
 buyer.setData({
     payment: 'card',
@@ -53,22 +53,34 @@ buyer.setData({
     phone: '+79999999999'
 });
 
-console.log(buyer.getData());
+console.log('Данные покупателя', buyer.getData());
 
-console.log(buyer.validate());
+console.log('Ошибка валидации', buyer.validate());
 
 buyer.clear();
 
-console.log(buyer.getData());
+console.log('Данные после очистки', buyer.getData());
 
-const api = new Api(import.meta.env.VITE_API_ORIGIN);
+import { API_URL } from './utils/constants';
+
+const api = new Api(API_URL);
 
 const apiModel = new LarekApi(api);
 
-apiModel.getProducts().then((data) => {
+apiModel
+    .getProducts()
+    .then((data) => {
 
-    products.setItems(data.items);
+        products.setItems(data.items);
 
-    console.log('Каталог с сервера', products.getItems());
+        console.log(
+            'Каталог с сервера',
+            products.getItems()
+        );
 
-});
+    })
+    .catch((err) => {
+
+        console.error('Ошибка загрузки каталога', err);
+
+    });

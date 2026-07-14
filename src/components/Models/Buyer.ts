@@ -1,13 +1,15 @@
-import { IBuyer } from "../../types";
+import { IBuyer, TBuyerErrors } from "../../types";
 
 export class Buyer {
 
-    protected data: IBuyer = {
-        payment: '' as any,
+    protected emptyBuyer: IBuyer = {
+        payment: null,
         email: '',
         phone: '',
         address: ''
     };
+
+    protected data: IBuyer = { ...this.emptyBuyer}
 
     setData(data: Partial<IBuyer>): void {
 
@@ -26,29 +28,24 @@ export class Buyer {
 
     clear(): void {
 
-        this.data = {
-            payment: '' as any,
-            email: '',
-            phone: '',
-            address: ''
-        };
+        this.data = { ...this.emptyBuyer};
 
     }
 
-    validate(): Record<string, string> {
+    validate(): TBuyerErrors {
 
-        const errors: Record<string, string> = {};
+        const errors: TBuyerErrors = {};
 
         if (!this.data.payment)
             errors.payment = 'Выберите способ оплаты';
 
-        if (!this.data.address)
+        if(!this.data.address.trim())
             errors.address = 'Введите адрес';
 
-        if (!this.data.email)
+        if (!this.data.email.trim())
             errors.email = 'Введите email';
 
-        if (!this.data.phone)
+        if (!this.data.phone.trim())
             errors.phone = 'Введите телефон';
 
         return errors;

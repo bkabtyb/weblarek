@@ -132,8 +132,8 @@ export type TPayment = 'card' | 'cash';
 `constructor()` — создает пустую модель.
 
  Поля класса: 
- `items: IProduct []` — каталог товаров.
- `preview: IProduct | null` — товар, который открыт в модальном окне.
+ `protected items: IProduct []` — каталог товаров.
+ `protected preview: IProduct | null` — товар, который открыт в модальном окне.
 
  Методы класса:
 `setItems(items: IProduct[]): void` — сохраняет каталог.
@@ -146,7 +146,7 @@ export type TPayment = 'card' | 'cash';
 Хранит товары, которые выбрал пользователь.
 
  Поля класса: 
- `items: IProduct []` — массив товаров корзины.
+ `protected items: IProduct []` — массив товаров корзины.
 
  Методы класса:
 `getItems(): IProduct[]` — получить товары.
@@ -162,7 +162,7 @@ export type TPayment = 'card' | 'cash';
 Хранит данные покупателя.
 
  Поля класса: 
- `data: IBuyer` — данные покупателя.
+ `protected data: IBuyer` — данные покупателя.
 
  Методы класса:
 `setData(data: Partial<IBuyer>): void` — обновляет одно/несколько полей.
@@ -173,8 +173,14 @@ export type TPayment = 'card' | 'cash';
 Слой коммуникации
 
 ###### Класс LarekApi
-ИСпользует композицию с классом Api.
+Иcпользует композицию с классом Api. Отвечает за взаимодействие с сервером, то есть получение каталога товаров и отправку данных заказа.
+
+Конструктор:
+`constructor(api: IApi)` — принимает экземпляр класса, реализующего интерфейс IApi.
+
+Поля класса:
+`protected api: IApi` — хранит объект для выполнения запросов к серверу.
 
  Методы класса:
-`getProducts()` — получает каталог товаров.
-`createOrder(order)` — отправляет заказ.
+`getProducts(): Promise<IProductsResponse>` — получает каталог товаров.
+`createOrder(order: IOrder): Promise<IOrderResponse>` — отправляет заказ.
