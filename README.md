@@ -98,3 +98,83 @@ Presenter - презентер содержит основную логику п
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
 
+##### Данные
+
+Товар:
+export interface IProduct {
+    id: string;
+    description: string;
+    image: string;
+    title: string;
+    category: string;
+    price: number | null;
+}
+Описывает товар из каталога.
+
+Покупатель:
+export interface IBuyer {
+    payment: TPayment;
+    email: string;
+    phone: string;
+    address: string;
+}
+Содержит данные покупателя, необходимые для оформления заказа.
+
+Допустимые типы оплаты:
+export type TPayment = 'card' | 'cash';
+
+Модели данных:
+
+ ###### Класс Products
+ Хранит каталог товаров и выбранный товар. 
+
+ Конструктор:
+`constructor()` — создает пустую модель.
+
+ Поля класса: 
+ `items: IProduct []` — каталог товаров.
+ `preview: IProduct | null` — товар, который открыт в модальном окне.
+
+ Методы класса:
+`setItems(items: IProduct[]): void` — сохраняет каталог.
+`getItems(): IProduct[]` — возвращает каталог.
+`getItem(id: string): IProduct | undefined` — возвращает товар по id.
+`setPreview(item: IProduct): void` — сохраняет выбранный товар.
+`getPreview(): IProduct | null` — возвращает выбранный товар.
+
+###### Класс Basket
+Хранит товары, которые выбрал пользователь.
+
+ Поля класса: 
+ `items: IProduct []` — массив товаров корзины.
+
+ Методы класса:
+`getItems(): IProduct[]` — получить товары.
+`add(item: IProduct): void` — добавить товар.
+`remove(id: string): void` — удалить товар.
+`clear(): void` — очистить корзину.
+`getTotal(): number` — получить общую стоимость товаров.
+`getCount(): number` — получить количество товаров в корзине.
+`has(id: string): boolean` — проверить наличие товара.
+
+
+###### Класс Buyer
+Хранит данные покупателя.
+
+ Поля класса: 
+ `data: IBuyer` — данные покупателя.
+
+ Методы класса:
+`setData(data: Partial<IBuyer>): void` — обновляет одно/несколько полей.
+`getData(): IBuyer` — возвращает данные.
+`clear(): void` — очищает данные.
+`validate(): Record<string,string>` — возвращает ошибки валидации.
+
+Слой коммуникации
+
+###### Класс LarekApi
+ИСпользует композицию с классом Api.
+
+ Методы класса:
+`getProducts()` — получает каталог товаров.
+`createOrder(order)` — отправляет заказ.
