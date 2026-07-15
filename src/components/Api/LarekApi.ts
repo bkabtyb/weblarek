@@ -18,10 +18,10 @@ export class LarekApi {
 
     }
 
-    createOrder(order: IOrder): Promise<IOrderResponse> {
+   createOrder(order: IOrder): Promise<IOrderResponse> {
 
-        return this.api.post('/order/', order);
+    return this.api.post<IOrderResponse>('/order/', order);
 
-    }
+   }
 
 }

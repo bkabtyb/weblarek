@@ -1,15 +1,15 @@
 import { IBuyer, TBuyerErrors } from "../../types";
 
-export class Buyer {
-
-    protected emptyBuyer: IBuyer = {
+ const emptyBuyer: IBuyer = {
         payment: null,
         email: '',
         phone: '',
         address: ''
     };
 
-    protected data: IBuyer = { ...this.emptyBuyer}
+export class Buyer {
+
+    protected data: IBuyer = { ...emptyBuyer}
 
     setData(data: Partial<IBuyer>): void {
 
@@ -28,7 +28,7 @@ export class Buyer {
 
     clear(): void {
 
-        this.data = { ...this.emptyBuyer};
+        this.data = { ...emptyBuyer};
 
     }
 
