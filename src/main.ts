@@ -74,6 +74,7 @@ events.on("preview:changed", () => {
     card.disabled = true;
   } else {
     card.buttonText = basket.has(item.id) ? "Удалить из корзины" : "В корзину";
+    card.disabled = false;
   }
 
   modal.render({
