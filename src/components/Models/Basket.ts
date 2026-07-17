@@ -11,6 +11,10 @@ export class Basket {
   }
 
   add(item: IProduct): void {
+    if (item.price === null) {
+      return;
+    }
+
     if (!this.has(item.id)) {
       this.items.push(item);
 

@@ -18,9 +18,9 @@ export class BasketView extends Component<IBasketView> {
   ) {
     super(container);
 
-    this.listElement = ensureElement<HTMLElement>(".basket__list", container);
+    this.listElement = ensureElement(".basket__list", container);
 
-    this.totalElement = ensureElement<HTMLElement>(".basket__price", container);
+    this.totalElement = ensureElement(".basket__price", container);
 
     this.buttonElement = ensureElement<HTMLButtonElement>(
       ".basket__button",
@@ -32,8 +32,8 @@ export class BasketView extends Component<IBasketView> {
     });
   }
 
-  set items(items: HTMLElement[]) {
-    this.listElement.replaceChildren(...items);
+  set items(value: HTMLElement[]) {
+    this.listElement.replaceChildren(...value);
   }
 
   set total(value: number) {

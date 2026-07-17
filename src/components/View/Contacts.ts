@@ -8,43 +8,28 @@ interface IContactsForm {
 }
 
 export class Contacts extends Form<IContactsForm> {
+  protected emailInput: HTMLInputElement;
+  protected phoneInput: HTMLInputElement;
+
   constructor(container: HTMLFormElement, events: IEvents) {
     super(container, events);
+
+    this.emailInput = ensureElement<HTMLInputElement>(
+      'input[name="email"]',
+      container,
+    );
+
+    this.phoneInput = ensureElement<HTMLInputElement>(
+      'input[name="phone"]',
+      container,
+    );
   }
 
   set email(value: string) {
-    const input = ensureElement<HTMLInputElement>(
-      'input[name="email"]',
-      this.container,
-    );
-
-    input.value = value;
-  }
-
-  get email(): string {
-    const input = ensureElement<HTMLInputElement>(
-      'input[name="email"]',
-      this.container,
-    );
-
-    return input.value;
+    this.emailInput.value = value;
   }
 
   set phone(value: string) {
-    const input = ensureElement<HTMLInputElement>(
-      'input[name="phone"]',
-      this.container,
-    );
-
-    input.value = value;
-  }
-
-  get phone(): string {
-    const input = ensureElement<HTMLInputElement>(
-      'input[name="phone"]',
-      this.container,
-    );
-
-    return input.value;
+    this.phoneInput.value = value;
   }
 }

@@ -129,7 +129,7 @@ export type TPayment = 'card' | 'cash';
  Хранит каталог товаров и выбранный товар. 
 
  Конструктор:
-`constructor()` — создает пустую модель.
+` constructor(protected events: IEvents)` — принимает экземпляр системы событий.
 
  Поля класса: 
  `protected items: IProduct []` — каталог товаров.
@@ -144,6 +144,9 @@ export type TPayment = 'card' | 'cash';
 
 ###### Класс Basket
 Хранит товары, которые выбрал пользователь.
+
+Конструктор:
+`constructor(protected events: IEvents)` — принимает экземпляр системы событий.
 
  Поля класса: 
  `protected items: IProduct []` — массив товаров корзины.
@@ -160,6 +163,9 @@ export type TPayment = 'card' | 'cash';
 
 ###### Класс Buyer
 Хранит данные покупателя.
+
+Конструктор:
+`constructor(protected events: IEvents)` — принимает экземпляр системы событий.
 
  Поля класса: 
  `protected data: IBuyer` — данные покупателя.
@@ -208,23 +214,30 @@ export type TPayment = 'card' | 'cash';
 `setVisible(element: HTMLElement): void` — отображает элемент.
 `render(): HTMLElement` — возвращает корневой элемент компонента.
 
-###### Класс Page
-Отображает главную страницу приложения.
+###### Класс Header
+Отображает кнопку корзины товаров и количество товаров в ней.
 
 Конструктор:
-`constructor (container: HTMLElemet, events: IEvents)` — принимает корневой элемент страницы и обработчик открытия корзины.
+`constructor(container: HTMLElement,protected events: IEvents)`.
 
 Поля класса:
-`protected gallery: HTMLelement` — контейнер каталога товаров.
-`protected basketButton: HTMLButtonElement` — кнопка открытия корзины.
-`protected counter: HTMLelement` — счётчик количества товаров.
-`protected wrapper: HTMLElement` — контейнер страницы.
-`protected events: Ievents` — экземляр брокера событий.
+`protected basketButton: HTMLButtonElement` — кнопка корзины.
+`protected counterElement: HTMLElement` — счетчик товаров в корзине.
 
 Методы класса:
-`set catalog(items: HTMLElement[]): void` — отображает каталог товаров.
-`set counterValue(value: number): void` — обновляет количество товаров в корзине.
-`set locked(value:boolean): void` — блокирует прокрутку страницы.
+`set counter(value: number)` — обновляет счетчик корзины.
+
+###### Класс Gallery
+Отображает каталог товаров.
+
+Конструктор:
+`constructor(container: HTMLElement)`.
+
+Поля класса:
+` protected galleryElement: HTMLElement;` — контейнер каталога.
+
+Методы класса:
+`set items(value: HTMLElement[])` — обновляет список карточек.
 
 ###### Класс Modal
 Отвечает за отображение и закрытие модальных окон.
@@ -243,28 +256,38 @@ export type TPayment = 'card' | 'cash';
 `render(data: IvodalData): HTMLElement`— отображает переданный компонент внутри модального окна и открывает его.
 
 ###### Класс Card
-Класс карточки товара. Содержит общий функционал для отображения информации о товаре(название, цены, категории, изображение). Является родителем для CardCatalog, CardPreview и CardBasket.
+Класс карточки товара. Содержит общий функционал для отображения информации о товаре(название, цены, категории, изображение).
 
 Конструктор:
-`constructor (container: HTMLElemet, events:IEvents, actions?: ICardActions` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
+`constructor(container: HTMLElement, protected events: IEvents)` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
 
 Поля класса:
 `protected titleElement: HTMLElement` — название товара.
 `protected priceElement: HTMLElement` — цена товара.
-`protected imageElement?: HTMLElement` — изображение. 
-`protected categoryElement?: HTMLElement` — категория товара.
 
 Методы класса:
 `set title(value: string): void` — отображает название товара.
 `set price(value: number | null): void` — отображает стоимость товара.
-`set image(src: string, alt: string): void` — устанавливает изображение товара.
-`set category(value: string): void` — отображает категорию товара.
+
+###### Класс ProductCard
+Класс карточки товара. Содержит общий функционал для отображения информации о товаре(название, цены, категории, изображение).
+
+Конструктор:
+`constructor(container: HTMLElement, protected events: IEvents)` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
+
+Поля класса:
+`protected imageElement: HTMLImageElement` — изображение товара.
+`protected categoryElement: HTMLElement` — категория товара.
+
+Методы класса:
+`set image(value: string)` — устанавливает изображение товара.
+`set category(value: TCategory)` — устанавливает категорию товара.
 
 ###### Класс CardCatalog
 Отображает карточку товара в каталоге.
 
 Конструктор:
-`constructor (container: HTMLElemet, events:IEvents, actions?: ICardActions` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
+`constructor(container: HTMLElement,events: IEvents, protected onClick: () => void, )` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
 
 Методы класса не содержит, так как вся логика реализована в родительском классе.
 
@@ -272,7 +295,7 @@ export type TPayment = 'card' | 'cash';
 Отображает карточку товара в модальном окне.
 
 Конструктор:
-`constructor (container: HTMLElemet, events:IEvents, actions?: ICardActions` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
+`constructor(container: HTMLElement,events: IEvents, protected onClick: () => void, )` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
 
 Поля класса:
 `protected descriptionElement: HTMLElement` — элемент отображения описания товара.
@@ -287,7 +310,7 @@ export type TPayment = 'card' | 'cash';
 Отображает товар в корзине.
 
 Конструктор:
-`constructor (container: HTMLElemet, events:IEvents, actions?: ICardActions` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
+`constructor(container: HTMLElement,events: IEvents, protected onClick: () => void, )` — принимает HTML-элемент карточки, в который будет выводится содержимое, обработчик действий пользователя.
 
 Поля класса:
 `protected indexElement: HTMLElement` — элемент отображения номера товара.
@@ -325,7 +348,6 @@ export type TPayment = 'card' | 'cash';
 Методы класса:
 `set valid(value: boolean): void` — изменяет состояние кнопки отправки.
 `set errors(value: string): void` — отображает ошибки валидации.
-`reset(): void` — возвращает форму.
 
 ###### Класс Order
 Отображает первую форму оформления заказа (ввод email, номера телефона, отправку данных на оплату).
@@ -335,7 +357,7 @@ export type TPayment = 'card' | 'cash';
 
 Поля класса:
 `protected paymentButtons: NodeListOf<HTMLButtonElement>` — хранит кнопки выбора способа оплаты.
-`protected selectedPayment: TPayment | null` — хранит выбранный способ оплаты.
+`protected addressInput: HTMLInputElement;` — хранит адрес.
 
 Методы класса:
 `set payment(value:Tpayment|null):void` — отображает выбранный способ оплаты.
@@ -346,6 +368,10 @@ export type TPayment = 'card' | 'cash';
 
 Конструктор:
 `constructor (container: HTMLFormElement, events: IEvents)` — HTML-форма контактных данных.
+
+Поля класса:
+`protected emailInput: HTMLInputElement` — хранит адрес электронной почты.
+`protected phoneInput: HTMLInputElement` — хранит телефон.
 
 Методы класса:
 `set email(value:string):void` — адрес электронной почты покупателя.

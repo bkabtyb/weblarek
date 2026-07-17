@@ -36,7 +36,9 @@ export abstract class Form<T> extends Component<IFormState> {
     this.container.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      this.events.emit("form:submit");
+      this.events.emit("form:submit", {
+        form: this.container.name,
+      });
     });
   }
 
@@ -46,13 +48,5 @@ export abstract class Form<T> extends Component<IFormState> {
 
   set errors(value: string) {
     this.setText(this.errorsElement, value);
-  }
-
-  reset(): void {
-    this.container.reset();
-
-    this.errors = "";
-
-    this.valid = false;
   }
 }

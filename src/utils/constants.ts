@@ -20,3 +20,4 @@ export const settings = {
 
 };
 
+export type TCategory = keyof typeof categoryMap;

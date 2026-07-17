@@ -17,12 +17,12 @@ export class Success extends Component<ISuccess> {
     super(container);
 
     this.descriptionElement = ensureElement<HTMLElement>(
-      ".order-successdescription",
+      ".order-success__description",
       container,
     );
 
     this.closeButton = ensureElement<HTMLButtonElement>(
-      ".order-successclose",
+      ".order-success__close",
       container,
     );
 
